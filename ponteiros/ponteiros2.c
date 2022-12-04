@@ -13,4 +13,4 @@ int main (  ){
     printf("sizeof(double) = %ld bytes\n\n", sizeof(double));
 
     printf("sizeof(void *) = %ld bytes\n", sizeof(void *));
-
+}
