@@ -24,6 +24,11 @@ void print_vetor(const int *v, int n){ //int * v = v[] pois ambos utilizam o pri
     } puts("");
 }
 
+void desalocar_Vetor(int *v){
+    free(v);
+    v = NULL;
+}
+
 int main(){
     
     puts("### VETOR ESTATICO");
@@ -44,8 +49,7 @@ int main(){
     print_vetor(vh, 5);
     
     //desalocando vetor dinamico
-    free(vh); 
-    vh = NULL;
+    desalocar_Vetor(vh);
 
     return 0;
 
