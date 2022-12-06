@@ -18,7 +18,7 @@ int soma_vetor_modf(int v[], int n, int modf){
     }
 }
 
-void print_vetor(int *v, int n){ //int * v = v[] pois ambos utilizam o primeiro endereço alocado no bloco;
+void print_vetor(const int *v, int n){ //int * v = v[] pois ambos utilizam o primeiro endereço alocado no bloco;
     for(int i = 0; i< n; i++){
         printf("&v[%d] = %p, v[%d] = %d\n" , i, &v[i], i, v[i]);
     } puts("");
