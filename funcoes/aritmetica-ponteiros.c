@@ -14,7 +14,9 @@ int main(){
 }
 
 //O símbolo v é uma constante que representa o endereço inicial do vetor.
+
 //Logo, sem indexação, v aponta(guarda a referência) para o primeiro elemento do vetor.
+
 //v retorna o &v[0] , v[0] = valor em v[0] , ou seja *v
 
 // ex.: v[3] = *v(+3) = *(S116) = 16;
