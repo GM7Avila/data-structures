@@ -35,6 +35,7 @@ int main(){
         }
         puts("");
     }
+    
     /********* FALTA A DESALOCAÇÃO DA MATRIZ *********/
 
     return 0;
