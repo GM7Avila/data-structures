@@ -73,6 +73,7 @@ void pop(Stack *p){
     }
 }
 
+
 int main(){
 
     Stack p;
@@ -88,5 +89,7 @@ int main(){
     pop(&p);
 
     printStack(&p);
+
+    return 1;
 
 }
