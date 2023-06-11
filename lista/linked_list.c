@@ -9,6 +9,7 @@ typedef struct node{
 
 typedef struct linkedList {
     Node *begin;
+    Node *last;
 } LinkedList;
 
 
@@ -30,8 +31,9 @@ Node *createNode(int value){
 void addFirst(LinkedList *L, int value){
     Node *no = createNode(value);
     
-    // Lista não vazia vazia
-    if(L->begin != NULL){
+    if(L->begin == NULL){
+        L->last = no;
+    } else {
         no->next = L->begin;
     }         
     
@@ -40,27 +42,18 @@ void addFirst(LinkedList *L, int value){
 }
 
 void addLast(LinkedList *L, int value){
-
     Node *no = createNode(value);
 
     // Lista vazia
     if(L->begin == NULL){
         L->begin = no;
+        L->last = no;
 
     } else {
-        Node *p = L->begin;
-
-        // Percorre toda a lista procurando o último elemento
-        while(p->next != NULL){
-            p = p->next;
-        }
-
-        // p aponta para o final da lista
-
-        p->next = no;
-
+        L->last->next = no;
+        L->last = L->last->next;
+         
     }
-
 }
 
 void printList(const LinkedList *L){
