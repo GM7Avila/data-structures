@@ -28,7 +28,6 @@ Node *createNode(int value){
 }
 
 void addFirst(LinkedList *L, int value){
-    
     Node *no = createNode(value);
     
     // Lista não vazia vazia
@@ -40,11 +39,34 @@ void addFirst(LinkedList *L, int value){
 
 }
 
+void addLast(LinkedList *L, int value){
+
+    Node *no = createNode(value);
+
+    // Lista vazia
+    if(L->begin == NULL){
+        L->begin = no;
+
+    } else {
+        Node *p = L->begin;
+
+        // Percorre toda a lista procurando o último elemento
+        while(p->next != NULL){
+            p = p->next;
+        }
+
+        // p aponta para o final da lista
+
+        p->next = no;
+
+    }
+
+}
+
 void printList(const LinkedList *L){
     
     // Primeiro nó
     Node *pNode = L->begin;
-
     printf("L -> ");
 
     // Enquanto pNode não aponta para um elemento NULL
@@ -52,9 +74,9 @@ void printList(const LinkedList *L){
         printf("%d -> ", pNode->value);
         pNode = pNode->next;
     }
-
     printf("NULL\n");
 }
+
 
 int main(){
     LinkedList *L = createLinkedList();
@@ -65,5 +87,12 @@ int main(){
 
     puts("\n");
     printList(L);
+
+    addLast(L, 1000);
+
+    puts("\n");
+    printList(L);
+
+    return 0;
 
 }
