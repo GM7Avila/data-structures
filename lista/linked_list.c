@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct node{
     int value;
@@ -28,24 +29,27 @@ Node *createNode(int value){
     return N;
 }
 
+
+bool isEmpty(const LinkedList *L){
+    return (L->begin == NULL && L->last == NULL);
+}
+
 void addFirst(LinkedList *L, int value){
     Node *no = createNode(value);
-    
-    if(L->begin == NULL){
-        L->last = no;
-    } else {
-        no->next = L->begin;
-    }         
-    
-    L->begin = no;
+    no->next = L->begin;
 
+    if(isEmpty(L)){
+        L->last = no;
+    }   
+
+    L->begin = no;
+   
 }
 
 void addLast(LinkedList *L, int value){
     Node *no = createNode(value);
 
-    // Lista vazia
-    if(L->begin == NULL){
+    if(isEmpty(L)){
         L->begin = no;
         L->last = no;
 
