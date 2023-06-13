@@ -64,12 +64,42 @@ void addLast(LinkedList *L, int value){
 void removeValue(LinkedList *L, int value){
     if(!isEmpty(L)){
 
+        Node *nextAux = L->begin;
+
         // caso 1 - elemento está na cabeça da lista
         if(L->begin->value == value) {
-            Node *nextAux = L->begin;
-            L->begin = L->begin->next;
+
+            // Se a lista possui um só elemento, que será removido
+            if(L->begin == L->last){
+                L->last = NULL;
+            }
             
+            L->begin = L->begin->next;
+
             free(nextAux);
+
+        // caso 2 - elemento no meio da lista
+        } else {
+            nextAux = L->begin->next;
+            Node *prevAux = L->begin;  
+            
+            // Linear search O(n)
+
+            // Enquanto há elementos e o valor de nextAux não for igual, avança os ponteiros
+            while(nextAux != NULL && nextAux->value != value){
+                
+                // move os ponteiros -->  
+                prevAux = prevAux->next;
+                nextAux = nextAux->next;
+                
+            }
+
+            // node encontrado e apontado pelo ponteiro nextAux
+            if(nextAux != NULL){
+                prevAux->next = nextAux->next;
+                free(nextAux);
+            }
+
         }
     }
 }
@@ -105,7 +135,7 @@ int main(){
     puts("\n");
     printList(L);
 
-    removeValue(L, 5);
+    removeValue(L, 4);
     printList(L);
 
 
