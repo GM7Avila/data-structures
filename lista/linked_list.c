@@ -155,10 +155,10 @@ int main(){
 
     printList(L);
 
-    addLast(L, 1000);
+    addLast(L, 2);
     printList(L);
 
-    removeValue(L, 4);
+    removeValue(L, 2);
     printList(L);
 
     removeValue(L, 231);
