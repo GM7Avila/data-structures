@@ -61,7 +61,7 @@ void addLast(LinkedList *L, int value){
 }
 
 // remove o primeiro nó encontrado que possua o valor informado
-void removeValue(LinkedList *L, int value){
+int removeValue(LinkedList *L, int value){
     if(!isEmpty(L)){
 
         Node *nextAux = L->begin;
@@ -78,12 +78,17 @@ void removeValue(LinkedList *L, int value){
 
             free(nextAux);
 
+            return 0;
+
+        }   
+        
         // caso 2 - elemento no meio da lista
-        } else {
+        // caso 3 - elemento no final da lista
+        else {
             nextAux = L->begin->next;
             Node *prevAux = L->begin;  
             
-            // Linear search O(n)
+            // O(n)
 
             // Enquanto há elementos e o valor de nextAux não for igual, avança os ponteiros
             while(nextAux != NULL && nextAux->value != value){
@@ -97,10 +102,23 @@ void removeValue(LinkedList *L, int value){
             // node encontrado e apontado pelo ponteiro nextAux
             if(nextAux != NULL){
                 prevAux->next = nextAux->next;
+                
+                // se o elemento a ser removido é o último nó da lista
+                // caso 3 - removendo o último elemento da lista
+                if(nextAux->next == NULL){
+                    L->last = prevAux;
+                }
+                
                 free(nextAux);
+            } else {
+                printf("O elemento inserido nao se encontra na lista.\n");
             }
 
+            return 0; 
+
         }
+    } else {
+        printf("\nErro: nao há nenhum elemento na lista.\n"); 
     }
 }
 
@@ -116,6 +134,14 @@ void printList(const LinkedList *L){
         pNode = pNode->next;
     }
     printf("NULL\n");
+
+    if(L->last == NULL){
+        printf("L->end = NULL\n");
+    } else {
+        printf("L->end = %d\n", L->last->value);
+    }
+
+    puts("");
 }
 
 
@@ -127,17 +153,16 @@ int main(){
         addFirst(L, i);
     }
 
-    puts("\n");
     printList(L);
 
     addLast(L, 1000);
-
-    puts("\n");
     printList(L);
 
     removeValue(L, 4);
     printList(L);
 
+    removeValue(L, 231);
+    printList(L);
 
     return 0;
 
