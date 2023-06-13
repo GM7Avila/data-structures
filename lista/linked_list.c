@@ -60,6 +60,20 @@ void addLast(LinkedList *L, int value){
     }
 }
 
+// remove o primeiro nó encontrado que possua o valor informado
+void removeValue(LinkedList *L, int value){
+    if(!isEmpty(L)){
+
+        // caso 1 - elemento está na cabeça da lista
+        if(L->begin->value == value) {
+            Node *nextAux = L->begin;
+            L->begin = L->begin->next;
+            
+            free(nextAux);
+        }
+    }
+}
+
 void printList(const LinkedList *L){
     
     // Primeiro nó
@@ -76,6 +90,7 @@ void printList(const LinkedList *L){
 
 
 int main(){
+
     LinkedList *L = createLinkedList();
 
     for(int i=1; i<6; i++){
@@ -89,6 +104,10 @@ int main(){
 
     puts("\n");
     printList(L);
+
+    removeValue(L, 5);
+    printList(L);
+
 
     return 0;
 
