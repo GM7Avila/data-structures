@@ -61,7 +61,7 @@ void addLast(LinkedList *L, int value){
 }
 
 // remove o primeiro nó encontrado que possua o valor informado
-int removeValue(LinkedList *L, int value){
+void removeValue(LinkedList *L, int value){
     if(!isEmpty(L)){
 
         Node *nextAux = L->begin;
@@ -122,6 +122,33 @@ int removeValue(LinkedList *L, int value){
     }
 }
 
+void removeValue_v2(LinkedList *L, int value){
+    Node *prevAux = NULL;
+    Node *nextAux = L->begin;
+
+    while(nextAux != NULL && nextAux->value != value){
+        prevAux = nextAux;
+        nextAux = nextAux->next;
+    }
+
+    // se achou um nó com valor value
+    if(nextAux != NULL){
+
+        if(L->last == nextAux){
+            L->last = prevAux;
+        }
+
+        if(L->begin == nextAux){
+            L->begin = L->begin->next;
+        } else {
+            prevAux->next = nextAux->next;
+        }
+
+        free(nextAux);
+
+    }
+}
+
 void printList(const LinkedList *L){
     
     // Primeiro nó
@@ -158,7 +185,7 @@ int main(){
     addLast(L, 2);
     printList(L);
 
-    removeValue(L, 2);
+    removeValue_v2(L, 2);
     printList(L);
 
     removeValue(L, 231);
