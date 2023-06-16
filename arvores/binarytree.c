@@ -10,6 +10,7 @@ typedef struct {
     Node *root;
 } BinaryTree;
 
+/* ====================== Versão de inserção 1 ======================
 
 void insertLeft(Node *node, int value){
     if(node->left == NULL){
@@ -77,8 +78,35 @@ void insert(BinaryTree *tree, int value){
             insertRight(tree->root, value);
         
     }
+}
 
+==================================================================*/
 
+// Versão de Inserção 2
+Node *insert_v2(Node *root, int value){
+    
+    // Árvore vazia
+    if(root == NULL){
+        Node *newNode = (Node*)malloc(sizeof(Node));
+        
+        newNode->value = value;
+        newNode->left = NULL;
+        newNode->right = NULL;
+
+        return newNode;
+
+    } else {
+        if(value < root->value){
+            root->left = insert_v2(root->left, value);
+        }
+
+        if(value > root->value){
+            root->right = insert_v2(root->right, value);
+        }
+
+        return root;
+
+    }
 }
 
 // print em ordem
@@ -93,8 +121,10 @@ void printTree(Node *root){
 
 int main(){
     int ans, value;
-    BinaryTree tree;
-    tree.root = NULL;
+    //BinaryTree tree;
+    //tree.root = NULL;
+
+    Node *root = NULL;
 
     do{
         printf("\n0- exit\n1- insert\n2- print\n=> ");
@@ -107,12 +137,12 @@ int main(){
             case 1:
                 printf("\nInsert a value: ");
                 scanf("%d", &value);
-
-                insert(&tree, value);
+                root = insert_v2(root, value);
+                //insert(&tree, value);
                 break;
             case 2:
                 printf("\nPrinting Binary Tree:\n");
-                printTree(tree.root);
+                printTree(root);
                 break;
             default:
                 printf("\nInvalid Value");
