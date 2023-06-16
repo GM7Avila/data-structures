@@ -8,6 +8,7 @@ typedef struct node{
 
 typedef struct {
     Node *root;
+    int size;
 } BinaryTree;
 
 /* ====================== Versão de inserção 1 ======================
@@ -109,6 +110,32 @@ Node *insert_v2(Node *root, int value){
     }
 }
 
+int getTreeSize(Node *root){
+    if(root == NULL){
+        return 0;
+    } else {
+        return 1 + getTreeSize(root->left) + getTreeSize(root->right);
+    }
+}
+
+int search(Node *root, int key){
+    if(root == NULL){
+        return 0;
+    } else {
+        if(root->value == key){
+            //return key;
+            return 1;
+        } else {
+            if(key < root->value) {
+                return search(root->left, key);
+            } else if (key >= root->right){
+                return search(root->right, key);
+            }
+        }
+    }
+}
+
+
 // print em ordem
 void printTree(Node *root){
     if(root != NULL){
@@ -127,7 +154,7 @@ int main(){
     Node *root = NULL;
 
     do{
-        printf("\n0- exit\n1- insert\n2- print\n=> ");
+        printf("\n0- exit\n1- insert\n2- print\n3- search\n=> ");
         scanf("%d", &ans);
 
         switch(ans){
@@ -143,10 +170,15 @@ int main(){
             case 2:
                 printf("\nPrinting Binary Tree:\n");
                 printTree(root);
+                printf("\nTree size: %d\n", getTreeSize(root));
+                break;
+            case 3:
+                printf("\nInsert a value: ");
+                scanf("%d", &value);
+                printf("- Result: %d\n", search(root, value));
                 break;
             default:
-                printf("\nInvalid Value");
-
+                printf("\nInvalid Value"); 
         }
 
     } while(ans != 0);
