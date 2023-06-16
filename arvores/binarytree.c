@@ -135,6 +135,29 @@ int search(Node *root, int key){
     }
 }
 
+// Caso 1: Remoção de nó-folha
+Node* remover(Node *root, int key){
+    if(root == NULL){
+        printf("Error: Value not found!\n");
+        return NULL;
+    } else {
+        if(root->value == key){
+            if(root->left == NULL && root->right == NULL){
+                free(root);
+                return NULL;
+            }
+
+        } else{
+            if(key < root->value) {
+                root->left = remover(root->left, key);
+            } else if (key > root->right){
+                root->right = remover(root->right, key);
+            }
+
+            return root;
+        }
+    }
+}
 
 // print em ordem
 void printTree(Node *root){
@@ -154,7 +177,7 @@ int main(){
     Node *root = NULL;
 
     do{
-        printf("\n0- exit\n1- insert\n2- print\n3- search\n=> ");
+        printf("\n0- exit\n1- insert\n2- print\n3- search\n4- remove\n=> ");
         scanf("%d", &ans);
 
         switch(ans){
@@ -176,6 +199,11 @@ int main(){
                 printf("\nInsert a value: ");
                 scanf("%d", &value);
                 printf("- Result: %d\n", search(root, value));
+                break;
+            case 4:
+                printf("\nInsert a value: ");
+                scanf("%d", &value);
+                root = remover(root, value);
                 break;
             default:
                 printf("\nInvalid Value"); 
