@@ -135,7 +135,7 @@ int search(Node *root, int key){
     }
 }
 
-// Caso 1: Remoção de nó-folha
+// REMOVE CASE 1 : Remoção de nó-folha
 Node* remover(Node *root, int key){
     if(root == NULL){
         printf("Error: Value not found!\n");
@@ -147,17 +147,39 @@ Node* remover(Node *root, int key){
                 return NULL;
             }
 
+            else {
+                // remover nó que possua 2 filhos
+                if(root->left != NULL && root->right != NULL){
+
+                }
+
+                // remover nó que possua apenas 1 filho
+                else{
+                    Node* aux;
+                    if(root->left != NULL){
+                        aux = root->left;
+                    } else {
+                        aux = root->right;
+                    }
+                    free(root);
+                    return aux;
+                }
+            }
+
         } else{
             if(key < root->value) {
                 root->left = remover(root->left, key);
             } else if (key > root->right){
                 root->right = remover(root->right, key);
             }
-
+            
             return root;
         }
     }
 }
+
+// REMOVE CASE 2: Remoção de nó que possua um filho
+
 
 // print em ordem
 void printTree(Node *root){
