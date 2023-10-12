@@ -109,7 +109,6 @@ void printList(List *list){
 
 // ---------------- parte 3 : MONTANDO A ÁRVORE DE HUFFMAN  ----------------
 // - Remover os dois nós com menor frequência
-// - 
 
 Node *removeNodeFromList(List *list){
     Node *aux = NULL;
@@ -170,6 +169,85 @@ void printTree(Node *root, int size){
     }
 }
 
+// -------------------- parte 4 : MONTANDO O DICIONÁRIO --------------------
+// - O dicionário será uma matriz de strings
+// - Quantidade de linhas: tamanho da tabela ASCII
+// - Quantidade de colunas: altura da árvore de huffman (caminhos possíveis)
+//      - implementar a altura da arvore
+
+int getHeight(Node *root){
+    int left, right;
+    
+    if(root == NULL){
+        return -1;
+    } else{
+        getHeight(root->left) + 1;
+        getHeight(root->right) + 1;
+        
+        if(left>right)
+            return left;
+        else 
+            return right;
+    }
+}
+
+// alocando memória para o dicionário
+char **allocDictionary(int columns){
+    char **dictionary;
+
+    // Fazendo a alocação dinâmica da matriz 
+    dictionary = malloc(SIZE * sizeof(char*));
+    for(int i=0; i<SIZE; i++){
+        // calloc limpa a memória
+        dictionary[i] = calloc(columns, sizeof(char));
+    }
+
+    return dictionary;
+
+}
+
+// Gerando o dicionário
+// - stringcode = caminho que gera o código binario em string e substitui o ASCII 
+// - no inicio o stringcode é vazio
+void createDictionary(char **dictionary, Node *root, char *string_code, int columns){
+    
+    // 1. se estiver em um nó folha, acessa a linha do dicionario e salva o string_code 
+    // 2. se não for um nó folha (montagem do caminho): copia para os auxiliares esquerda e direita.
+    // 3. esquerda - concatenar 0; direita - concatenar 1
+    // 4. salva a string_code na linha do dicionario
+    
+    // precisam ter no minimo o tamanho das colunas
+    char left[columns], right[columns];
+
+    // no folha
+    if(root->left == NULL & root->right == NULL){
+        strcpy(dictionary[root->character], string_code);
+    } 
+    // no intermediario, percorrer a esquerda e direita
+    else{
+        strcpy(left, string_code);
+        strcpy(right, string_code);
+
+        // 0 para esquerda, e 1 para direita
+        strcat(left, "0");
+        strcat(right, "1");
+
+        createDictionary(dictionary, root->left, left, columns);
+        createDictionary(dictionary, root->right, right, columns);
+    }
+}
+
+void printDictionary(char** dictionary){
+
+    printf("\n\tDICTIONARY:\n");
+
+    for(int i=0; i<SIZE; i++){
+        if(strlen(dictionary[i]) > 0){
+            printf("\tASCII [%3d]\tCode[%s]\n", i, dictionary[i]);
+        }
+    }
+}
+
 int main() {
 
     // unsigned 0 ~ 255
@@ -177,6 +255,8 @@ int main() {
     unsigned int table_f[SIZE];
     List list;
     Node *huffmanTree;
+    int columns;
+    char **dictionary;
 
     
     // --------------------- parte 1 : TABELA DE FREQUÊNCIA ---------------------
@@ -197,6 +277,12 @@ int main() {
     huffmanTree = assembleHuffmanTree(&list);
     printf("\n\tHUFFMAN TREE\n");
     printTree(huffmanTree, 0);
+
+    // -------------------- parte 4 : MONTANDO O DICIONÁRIO --------------------
+    columns = getHeight(huffmanTree) + 1;
+    dictionary = allocDictionary(columns);
+    createDictionary(dictionary, huffmanTree, "", columns);
+    printDictionary(dictionary);
 
     return 0;
 }
