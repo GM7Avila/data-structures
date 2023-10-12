@@ -107,12 +107,76 @@ void printList(List *list){
     }
 }
 
+// ---------------- parte 3 : MONTANDO A ÁRVORE DE HUFFMAN  ----------------
+// - Remover os dois nós com menor frequência
+// - 
+
+Node *removeNodeFromList(List *list){
+    Node *aux = NULL;
+
+    // checar se a Lista não esta vazia para remover
+    if(list->begin){
+        aux = list->begin;
+        list->begin = aux->next;
+        aux->next = NULL;
+        list->size--;
+    }
+
+    return aux;
+}
+
+Node * assembleHuffmanTree(List *list){
+    
+    Node *first, *second, *new;
+
+    // remover de dois em dois
+    while(list->size > 1){
+        // removendo o primeiro nó
+        first = removeNodeFromList(list);
+        // removendo o segundo nó
+        second = removeNodeFromList(list);
+
+        // novo nó (pai)
+        new = malloc(sizeof(Node));
+        if(new){
+            new->character = '+';
+            new->frequency = first->frequency + second->frequency;
+            new->left = first;
+            new->right = second;
+            new->next = NULL;
+
+            // por fim inserir novamente na lista
+            insertByOrder(list, new);
+
+        } else {
+            printf("\tassembleHuffmanTree() memory error\n");
+            //return NULL;
+            break;
+        }
+    }
+
+    // retorna a raiz
+    return list->begin;
+
+}
+
+void printTree(Node *root, int size){
+    // se for um nó folha
+    if(root->left == NULL && root->right == NULL){
+        printf("\tLeaf: %c\tHeight: %d\n", root->character, size);
+    } else{
+        printTree(root->left, size++);
+        printTree(root->right, size++);
+    }
+}
+
 int main() {
 
     // unsigned 0 ~ 255
     unsigned char phrase[] = "Hello, my name is Guilherme Medeiros Avila!";
     unsigned int table_f[SIZE];
     List list;
+    Node *huffmanTree;
 
     
     // --------------------- parte 1 : TABELA DE FREQUÊNCIA ---------------------
@@ -126,6 +190,13 @@ int main() {
     initializeList(&list);
     createList(table_f, &list);
     printList(&list);
+
+    printf("\n");
+
+    // ---------------- parte 3 : MONTANDO A ÁRVORE DE HUFFMAN  ----------------
+    huffmanTree = assembleHuffmanTree(&list);
+    printf("\n\tHUFFMAN TREE\n");
+    printTree(huffmanTree, 0);
 
     return 0;
 }
