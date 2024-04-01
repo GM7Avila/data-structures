@@ -35,7 +35,7 @@ Graph* init_graph(int is_weighted, int num_vertices, int max_degree){
 
     if(grafo != NULL){
 
-        grafo->is_weighted = is_weighted;
+        grafo->is_weighted = (is_weighted != 0)?1:0; /* garante zero e um */
         grafo->num_vertices = num_vertices;
         grafo->max_degree = max_degree;
 
